@@ -71,6 +71,11 @@ move_to_root_bootstrap(void)
 }
 #endif /* !VARIANT_PRE1050 */
 
+#if defined __arm64__ && !defined VARIANT_PRE1050
+#warning hack to avoid duplicate symbol '_daemon' in: gen/CMakeFiles/libc-gen.dir/FreeBSD/daemon.c.o gen/CMakeFiles/libc-gen_pre1050.dir/FreeBSD/daemon.c.o
+// this is probably not the correct fix!
+#else
+
 int daemon(int, int) __DARWIN_1050(daemon);
 
 int
@@ -122,3 +127,4 @@ daemon(nochdir, noclose)
 	}
 	return (0);
 }
+#endif // defined __arm64__  && !defined VARIANT_PRE1050
